@@ -24,10 +24,23 @@ describe('nextback', function() {
     ran.should.equal(false);
     nextback(fn)();
     ran.should.equal(false);
-    setTimeout(function(){
+    process.nextTick(function(){
       ran.should.equal(true);
       done();
-    }, 10);
+    });
+  });
+
+  it('should run things in order with mutating state', function(done) {
+    var o = {
+      name: "todd"
+    };
+
+    var fn = function() {
+      o.name.should.equal("jesse");
+      done();
+    };
+    nextback(fn)(o);
+    o.name = "jesse";
   });
 
 });
