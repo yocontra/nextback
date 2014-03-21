@@ -43,4 +43,18 @@ describe('nextback', function() {
     o.name = "jesse";
   });
 
+  it('should run things with a given context', function(done) {
+    var ctx = {
+      hello: 'dude'
+    };
+
+    var fn = function(arg) {
+      this.hello.should.equal('dude');
+      arg.should.equal('dude');
+      done();
+    };
+
+    nextback(fn).apply(ctx, ['dude']);
+  });
+
 });
